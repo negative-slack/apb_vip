@@ -10,6 +10,7 @@ package apb_vip_pkg;
   typedef logic [`__APB_ADDR_WIDTH__-1:0] apb_addr_t;
   typedef logic [`__APB_DATA_WIDTH__-1:0] apb_data_t;
   typedef logic [`__APB_STRB_WIDTH__-1:0] apb_strb_t;
+  typedef logic [`__APB_PROT_WIDTH__-1:0] apb_prot_t;
 
   typedef enum bit {
     READ  = 1'b0,
@@ -28,7 +29,7 @@ package apb_vip_pkg;
     WAIT_STATE = 2'b11
   } apb_fsm_enum;
 
-  typedef enum logic [2:0] {
+  typedef enum apb_prot_t {
     NORMAL_SECURE_DATA = 3'b000,
     NORMAL_SECURE_INSTRUCTION = 3'b001,
     NORMAL_NONSECURE_DATA = 3'b010,
