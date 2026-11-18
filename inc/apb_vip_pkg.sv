@@ -5,10 +5,11 @@ import apb_defines::*;
 
 package apb_vip_pkg;
 
+  typedef bit [`__APB_NUM_OF_SLAVES__-1:0] apb_psel_t;
+
   typedef logic [`__APB_ADDR_WIDTH__-1:0] apb_addr_t;
   typedef logic [`__APB_DATA_WIDTH__-1:0] apb_data_t;
   typedef logic [`__APB_STRB_WIDTH__-1:0] apb_strb_t;
-
 
   typedef enum bit {
     READ  = 1'b0,
@@ -38,28 +39,28 @@ package apb_vip_pkg;
     PRIVILEGED_NONSECURE_INSTRUCTION = 3'b111
   } apb_prot_enum;
 
-  typedef enum bit [3:0] {
-    SLAVE_0  = 4'b0000,
-    SLAVE_1  = 4'b0001,
-    SLAVE_2  = 4'b0010,
-    SLAVE_3  = 4'b0011,
-    SLAVE_4  = 4'b0100,
-    SLAVE_5  = 4'b0101,
-    SLAVE_6  = 4'b0110,
-    SLAVE_7  = 4'b0111,
-    SLAVE_8  = 4'b1000,
-    SLAVE_9  = 4'b1001,
-    SLAVE_10 = 4'b1010,
-    SLAVE_11 = 4'b1011,
-    SLAVE_12 = 4'b1100,
-    SLAVE_13 = 4'b1101,
-    SLAVE_14 = 4'b1110,
-    SLAVE_15 = 4'b1111
+  typedef enum bit [`__APB_NUM_OF_SLAVES__-1:0] {
+    SLAVE_0  = 4'b0000_0000_0000_0001,
+    SLAVE_1  = 4'b0000_0000_0000_0010,
+    SLAVE_2  = 4'b0000_0000_0000_0100,
+    SLAVE_3  = 4'b0000_0000_0000_1000,
+    SLAVE_4  = 4'b0000_0000_0001_0000,
+    SLAVE_5  = 4'b0000_0000_0010_0000,
+    SLAVE_6  = 4'b0000_0000_0100_0000,
+    SLAVE_7  = 4'b0000_0000_1000_0000,
+    SLAVE_8  = 4'b0000_0001_0000_0000,
+    SLAVE_9  = 4'b0000_0010_0000_0000,
+    SLAVE_10 = 4'b0000_0100_0000_0000,
+    SLAVE_11 = 4'b0000_1000_0000_0000,
+    SLAVE_12 = 4'b0001_0000_0000_0000,
+    SLAVE_13 = 4'b0010_0000_0000_0000,
+    SLAVE_14 = 4'b0100_0000_0000_0000,
+    SLAVE_15 = 4'b1000_0000_0000_0000
   } apb_slave_num_enum;
 
   typedef struct packed {
 
-    bit [`__APB_NUM_OF_SLAVES__-1:0] psel;
+    apb_psel_t psel;
 
     apb_addr_t paddr;
     pwrite_enum pwrite;
@@ -71,6 +72,7 @@ package apb_vip_pkg;
     pslverr_enum pslverr;
 
     int num_of_wait_states;
+
   } apb_trans_st;
 
 endpackage : apb_vip_pkg

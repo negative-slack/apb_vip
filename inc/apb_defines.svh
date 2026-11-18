@@ -13,6 +13,7 @@
 `define __APB_STRB_WIDTH__ (`__APB_DATA_WIDTH__ / 8)
 `endif
 
+// Number of APB slaves = 16
 `ifndef __APB_NUM_OF_SLAVES__
 `define __APB_NUM_OF_SLAVES__ 16
 `endif
