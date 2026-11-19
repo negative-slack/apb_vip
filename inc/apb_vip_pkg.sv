@@ -59,6 +59,13 @@ package apb_vip_pkg;
     SLAVE_15 = 4'b1000_0000_0000_0000
   } apb_slave_num_enum;
 
+  typedef enum apb_addr_t {
+    _byte = 32'd8,
+    _halfword = 32'd16,
+    _3_fourth_word = 32'd24,
+    _word = 32'd32
+  } transfer_size_enum;
+
   typedef struct packed {
 
     apb_psel_t psel;
