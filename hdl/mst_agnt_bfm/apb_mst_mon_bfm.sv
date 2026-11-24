@@ -22,20 +22,27 @@ interface apb_mst_mon_bfm
     input apb_prot_enum PROT  // protection type of the transaction
 );
 
-  task sample_signals(apb_trans_struct req);
+  /*
+    // Task : sample_signals
+    // Description : This task is used to sample the signals of the interface and store them in the transaction structure
+    //               The task will wait until a slave is selected and the transaction is in the access state, 
+                     then it will sample the signals and store them in the transaction structure
+    //               The task will also count the number of wait states and store it in the transaction structure
+*/
+
+  task sample_signals(output apb_trans_struct req);
 
     while (($countones(
         PSELX
     ) != 1)  // NO SLAVE IS SELECTED
-    || (PENABLE != 1'b1)) begin
+    || (PREADY != 1'b1)) begin
       @(negedge PCLK);
     end
 
-    while (PREADY != 1'b1) begin
+    while (PREADY != 1'b1) begin  // SLAVE IS NOT READY, WAIT STATE DETECTED
       @(negedge PCLK);
       req.num_of_wait_states++;
     end
-
 
     req.PSELXx = PSELX;
 
@@ -58,6 +65,5 @@ interface apb_mst_mon_bfm
 
 
 endinterface : apb_mst_mon_bfm
-
 
 `endif
