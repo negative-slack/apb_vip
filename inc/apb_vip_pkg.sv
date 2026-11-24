@@ -1,6 +1,7 @@
 `ifndef __APB_VIP_PKG___
 `define __APB_VIP_PKG___ 
 
+// wildcard include of the defines file to get all the defines in the package
 import apb_defines::*;
 
 package apb_vip_pkg;
@@ -18,15 +19,15 @@ package apb_vip_pkg;
   } pwrite_enum;
 
   typedef enum bit {
-    NO_ERROR = 1'b0,
+    OKAY  = 1'b0,  // a.k.a NO_ERROR
     ERROR = 1'b1
   } pslverr_enum;
 
   typedef enum bit [1:0] {
-    IDLE = 2'b00,
-    SETUP = 2'b01,
-    ACCESS = 2'b10,
-    WAIT_STATE = 2'b11
+    IDLE_STATE   = 2'b00,
+    SETUP_STATE  = 2'b01,
+    ACCESS_STATE = 2'b10,
+    WAIT_STATE   = 2'b11
   } apb_fsm_enum;
 
   typedef enum apb_prot_t {
@@ -68,20 +69,20 @@ package apb_vip_pkg;
 
   typedef struct packed {
 
-    apb_psel_t psel;
+    apb_pselx_t pselx;  // 16 bits for 16 slaves
 
-    apb_addr_t paddr;
-    pwrite_enum pwrite;
-    apb_data_t pwdata;
-    apb_strb_t pstrb;
-    apb_prot_enum prot;
+    apb_addr_t paddr;  // 32 bits for address
+    pwrite_enum pwrite;  // 1 bit for read/write
+    apb_data_t pwdata;  // 32 bits for write data
+    apb_strb_t pstrb;  // 4 bits for write strobe
+    apb_prot_enum prot;  // 3 bits for protection type
 
-    apb_data_t   prdata;
-    pslverr_enum pslverr;
+    apb_data_t   prdata;   // 32 bits for read data
+    pslverr_enum pslverr;  // 1 bit for slave error
 
     int num_of_wait_states;
 
-  } apb_trans_st;
+  } apb_trans_struct;
 
 endpackage : apb_vip_pkg
 

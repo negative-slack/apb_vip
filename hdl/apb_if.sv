@@ -17,6 +17,7 @@ interface apb_if
   // below signals have a value other than '0, only when PWRITE is asserted for a write transaction (will be controlled via a constraint)
   apb_data_t PWDATA;  // write data value
   apb_strb_t PSTRB;  // write strobe; indicates which byte lane to update during a write transaction (16 diff choice)
+  apb_prot_enum PROT;  // protection type of the transaction
 
   // slv output signals
   bit PREADY; // only when PREADY is high it indicates the end of the tnx, read data is avaialbe at the same clock cycle with 0 delay. For a write tnxs, we update the memory after 1 delay cycle! (When PREADY = 0)
