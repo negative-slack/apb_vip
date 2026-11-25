@@ -39,7 +39,7 @@ package apb_vip_pkg;
     PRIVILEGED_SECURE_INSTRUCTION = 3'b101,
     NORMAL_NONSECURE_INSTRUCTION = 3'b110,
     PRIVILEGED_NONSECURE_INSTRUCTION = 3'b111
-  } apb_pprot_enum;
+  } pprot_enum;
 
   // since pselx is a 1 bit signal, hence hot-encoded slaves are used
   typedef enum bit [`__APB_NUM_OF_SLAVES__-1:0] {
@@ -59,14 +59,7 @@ package apb_vip_pkg;
     SLAVE_13 = 4'b0010_0000_0000_0000,
     SLAVE_14 = 4'b0100_0000_0000_0000,
     SLAVE_15 = 4'b1000_0000_0000_0000
-  } apb_slave_num_enum;
-
-  typedef enum apb_addr_t {
-    _byte = 32'd8,
-    _halfword = 32'd16,
-    _3_fourth_word = 32'd24,
-    _word = 32'd32
-  } transfer_size_enum;
+  } slave_num_enum;
 
   typedef enum bit [1:0] {
     IDLE_STATE   = 2'b00,
@@ -90,7 +83,7 @@ package apb_vip_pkg;
 
     int num_of_wait_states;
 
-  } apb_trans_struct;
+  } tnx_struct;
 
 endpackage : apb_vip_pkg
 

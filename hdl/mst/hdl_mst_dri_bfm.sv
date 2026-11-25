@@ -67,7 +67,7 @@ interface hdl_mst_dri_bfm
   // Method : dri_setup_state
   // Description : This task is used to drive the FSM to the SETUP state
   ////////////////////////////////////////////////////////////////////////////// 
-  task dri_setup_state(inout apb_trans_struct req);
+  task dri_setup_state(inout tnx_struct req);
 
     @(posedge PCLK);
 
@@ -96,7 +96,7 @@ interface hdl_mst_dri_bfm
   // Method : dri_access_state
   // Description : This task is used to drive the FSM to the ACCESS state
   ////////////////////////////////////////////////////////////////////////////// 
-  task dri_access_state(inout apb_trans_struct req);
+  task dri_access_state(inout tnx_struct req);
 
     @(posedge PCLK);
 
@@ -119,7 +119,7 @@ interface hdl_mst_dri_bfm
   // Method : wait_state_detected
   // Description : This task is used to detect when PREADY is low so the FSM stays in the wait_state
   ////////////////////////////////////////////////////////////////////////////// 
-  task wait_state_detected(inout apb_trans_struct req);
+  task wait_state_detected(inout tnx_struct req);
 
     @(posedge PCLK);
     `uvm_info(get_full_name(), "PREADY is LOW, wait state detected", UVM_MEDIUM);
@@ -136,7 +136,7 @@ interface hdl_mst_dri_bfm
   endtask : wait_state_detected
 
 
-  task dri(apb_trans_struct req);
+  task dri_main(tnx_struct req);
 
     dri_idle_state();
     dri_setup_state(req);

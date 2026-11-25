@@ -28,7 +28,7 @@ interface hdl_mst_mon_bfm
   //               then it will sample the signals and store them in the transaction structure
   //               The task will also count the number of wait states and store it in the transaction structure
   //////////////////////////////////////////////////////////////////////////////
-  task sample_signals(output apb_trans_struct req);
+  task sample_signals(output tnx_struct req);
 
     while (($countones(
         PSELX

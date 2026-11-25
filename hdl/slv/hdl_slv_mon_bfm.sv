@@ -20,7 +20,7 @@ interface hdl_slv_mon_bfm (
     input apb_pprot_t PPROT  // protection type of the transaction
 );
 
-  task sample_signals(output apb_trans_struct req);
+  task sample_signals(output tnx_struct req);
 
     while (($countones(
         PSELX

@@ -32,7 +32,7 @@ interface hdl_slv_dri_bfm (
     `uvm_info(get_full_name(), "SYSTEM RESET DEACTIVATED", UVM_MEDIUM);
   endtask : dri_presetn
 
-  task wait_for_setup_state(output apb_trans_struct req);
+  task wait_for_setup_state(output tnx_struct req);
     @(posedge PCLK);
     `uvm_info(get_full_name(), "WAITING FOR SETUP STATE", UVM_MEDIUM);
     `uvm_info(get_full_name(), $sformatf("PSELX: %0h", PSELX), UVM_MEDIUM);
@@ -59,7 +59,7 @@ interface hdl_slv_dri_bfm (
 
   endtask : wait_for_setup_state
 
-  task wait_for_access_state(output apb_trans_struct req);
+  task wait_for_access_state(output tnx_struct req);
     @(posedge PCLK);
     `uvm_info(get_full_name(), "WAITING FOR ACCESS STATE", UVM_MEDIUM);
     `uvm_info(get_full_name(), $sformatf("NUM_OF_WAIT_STATES: %0h", req.num_of_wait_states),
