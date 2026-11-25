@@ -1,5 +1,5 @@
-`ifndef __APB_DEFINES_SVH___
-`define __APB_DEFINES_SVH___
+`ifndef __APB_DEFINES_SVH__
+`define __APB_DEFINES_SVH__
   
 `ifndef __APB_ADDR_WIDTH__
 `define __APB_ADDR_WIDTH__ 32
@@ -27,6 +27,7 @@
 `define __SLAVE_MEMORY_SIZE_IN_KB__ 4
 `endif
 
+// byte addressed memory
 `ifndef __SLAVE_MEMORY_WIDTH__
 `define __SLAVE_MEMORY_WIDTH__ 8
 `endif

@@ -1,15 +1,15 @@
-`ifndef __MST_SEQ_ITEM_CNVRTR_SV__
+`ifndef __HVL_MST_SEQ_ITEM_CNVRTR_SV__
 `define __MST_SEQ_ITEM_CNVRTR_SV__ 
 
-class mst_seq_item_cnvrtr extends uvm_object;
+class hvl_mst_seq_item_cnvrtr extends uvm_object;
 
   `uvm_object_utils(mst_seq_item_cnvrtr);
 
-  function new(string name = "mst_seq_item_cnvrtr");
+  function new(string name = "hvl_mst_seq_item_cnvrtr");
     super.new(name);
   endfunction : new
 
-  function void from_class(input mst_tnx i_conv, output apb_trans_struct o_conv);
+  function void from_class(input hvl_mst_tnx i_conv, output apb_trans_struct o_conv);
     $cast(o_conv.pselx, i_conv.pslex);
 
     $cast(o_conv.paddr, i_conv.paddr);

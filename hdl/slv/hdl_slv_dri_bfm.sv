@@ -1,7 +1,7 @@
-`ifndef __APB_SLV_AGNT_BFM__
-`define __APB_SLV_AGNT_BFM__ 
+`ifndef __HDL_SLV_DRI_BFM__
+`define __HDL_SLV_DRI_BFM__ 
 
-interface apb_slv_agnt_bfm (
+interface hdl_slv_dri_bfm (
     input bit PCLK,    // system clk
     input bit PRESETn, // system reset negative
 
@@ -20,13 +20,17 @@ interface apb_slv_agnt_bfm (
     input apb_pprot_t PPROT  // protection type of the transaction
 );
 
-  task reset();
-    @(negedge PCLK);
+  //////////////////////////////////////////////////////////////////////////////
+  // Method : dri_presetn
+  // Description : drive the presetn signal to be low
+  ////////////////////////////////////////////////////////////////////////////// 
+  task dri_presetn();
+    @(negedge PRESEETn);
     `uvm_info(get_full_name(), "SYSTEM RESET ACTIVATED", UVM_MEDIUM);
 
-    @(posedge PCLK);
+    @(posedge PRESEETn);
     `uvm_info(get_full_name(), "SYSTEM RESET DEACTIVATED", UVM_MEDIUM);
-  endtask : reset
+  endtask : dri_presetn
 
   task wait_for_setup_state(output apb_trans_struct req);
     @(posedge PCLK);
@@ -42,9 +46,9 @@ interface apb_slv_agnt_bfm (
     `uvm_info(get_full_name(), "SETUP STATE DETECTED", UVM_MEDIUM);
     `uvm_info(get_full_name(), $sformatf("PSELX: %0h", PSELX), UVM_MEDIUM);
 
-    req.PSELX  = PSELX;
-    req.PADDR  = PADDR;
-    req.PWRITE = PWRITE;
+    req.pselq  = PSELX;
+    req.paddr  = PADDR;
+    req.pwrite = PWRITE;
 
     if (PWRITE == WRITE) begin  // it is a write transaction, so we need to drive PWDATA and PSTRB
       req.pwdata = PWDATA;
@@ -71,13 +75,14 @@ interface apb_slv_agnt_bfm (
     `uvm_info(get_full_name(), $sformatf("PREADY: %0h", PREADY), UVM_MEDIUM);
 
     if (req.PWRITE == READ) begin
-      PRDATA <= req.PRDATA;
+      PRDATA <= req.prdata;
     end
 
-    PSLVERR <= req.PSLVERR;
+    PSLVERR <= req.pslverr;
 
   endtask : wait_for_access_state
 
 
-endinterface
+endinterface : hdl_slv_dri_bfm
+
 `endif

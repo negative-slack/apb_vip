@@ -1,9 +1,7 @@
-`ifndef __APB_MST_MON_BFM__
-`define __APB_MST_MON_BFM__ 
+`ifndef __HDL_SLV_MON_BFM__
+`define __HDL_SLV_MON_BFM__ 
 
-interface apb_mst_mon_bfm
-  import apb_vip_pkg::*;
-(
+interface hdl_slv_mon_bfm (
     input bit PCLK,    // system clk
     input bit PRESETn, // system reset negative
 
@@ -22,26 +20,13 @@ interface apb_mst_mon_bfm
     input apb_pprot_t PPROT  // protection type of the transaction
 );
 
-  /*
-    // Task : sample_signals
-    // Description : This task is used to sample the signals of the interface and store them in the transaction structure
-    //               The task will wait until a slave is selected and the transaction is in the access state, 
-                     then it will sample the signals and store them in the transaction structure
-    //               The task will also count the number of wait states and store it in the transaction structure
-*/
-
   task sample_signals(output apb_trans_struct req);
 
     while (($countones(
         PSELX
     ) != 1)  // NO SLAVE IS SELECTED
-    || (PREADY != 1'b1)) begin
+    || (PENABLE != 1'b1) || (PREADY != 1'b1)) begin
       @(negedge PCLK);
-    end
-
-    while (PREADY != 1'b1) begin  // SLAVE IS NOT READY, WAIT STATE DETECTED
-      @(negedge PCLK);
-      req.num_of_wait_states++;
     end
 
     req.PSELXx = PSELX;
@@ -53,17 +38,14 @@ interface apb_mst_mon_bfm
       req.pwdata = PWDATA;
       req.pstrb  = PSTRB;
     end else begin
-      req.rdata   = PRDATA;
+      req.prdata  = PRDATA;
       req.pslverr = PSLVERR;
     end
 
     req.pprot = PPROT;
 
-    `uvm_info(get_full_name(), $sformatf("Sampled transaction: %0p", req), UVM_MEDIUM);
-
   endtask : sample_signals
 
-
-endinterface : apb_mst_mon_bfm
+endinterface : hdl_slv_mon_bfm
 
 `endif

@@ -1,16 +1,17 @@
-`ifndef __APB_SLV_MON_BFM__
-`define __APB_SLV_MON_BFM__ 
+`ifndef __HDL_MST_MON_BFM__
+`define __HDL_MST_MON_BFM__ 
 
-interface apb_slv_mon_bfm (
+interface hdl_mst_mon_bfm
+  import apb_vip_pkg::*;
+(
     input bit PCLK,    // system clk
     input bit PRESETn, // system reset negative
 
-    // slv input signals
+
     input bit PREADY,
     input apb_data_t PRDATA,
     input pslverr_enum PSLVERR,
 
-    // mst input signals
     input apb_pselx_t PSELX,  // slave select, when asserted indicates the start of the transaction
     input bit PENABLE,  // low indicates the first cycle of the transaction (setup state)
     input apb_addr_t PADDR,  // address to write to or read from
@@ -20,21 +21,33 @@ interface apb_slv_mon_bfm (
     input apb_pprot_t PPROT  // protection type of the transaction
 );
 
-task sample_signals(output apb_trans_struct req);
+  //////////////////////////////////////////////////////////////////////////////
+  // Task : sample_signals
+  // Description : This task is used to sample the signals of the interface and store them in the transaction structure
+  //               The task will wait until a slave is selected and the transaction is in the access state, 
+  //               then it will sample the signals and store them in the transaction structure
+  //               The task will also count the number of wait states and store it in the transaction structure
+  //////////////////////////////////////////////////////////////////////////////
+  task sample_signals(output apb_trans_struct req);
 
     while (($countones(
         PSELX
     ) != 1)  // NO SLAVE IS SELECTED
-    || (PREADY != 1'b1)) begin
+    || (PENABLE != 1'b1)) // NOT EVEN IN THE ACCESS STATE 
+    begin
       @(negedge PCLK);
     end
 
+    // WE ARE IN THE ACCESS STATE, IS PREADY HIGH ?
     while (PREADY != 1'b1) begin  // SLAVE IS NOT READY, WAIT STATE DETECTED
       @(negedge PCLK);
       req.num_of_wait_states++;
     end
 
-    req.PSELXx = PSELX;
+    `uvm_info(get_full_name(), $sformat(
+              "PSELX = %0d, PENABLE = %0b, PREADY = %0b", req.pselx, req.penable, req.pready),
+              UVM_MEDIUM);
+    req.pselx  = PSELX;
 
     req.paddr  = PADDR;
     req.pwrite = PWRITE;
@@ -49,6 +62,10 @@ task sample_signals(output apb_trans_struct req);
 
     req.pprot = PPROT;
 
+    `uvm_info(get_full_name(), $sformatf("Sampled transaction: %0p", req), UVM_MEDIUM);
+
   endtask : sample_signals
 
-endinterface : apb_slv_mon_bfm
+endinterface : hdl_mst_mon_bfm
+
+`endif

@@ -1,5 +1,5 @@
-`ifndef __APB_VIP_PKG___
-`define __APB_VIP_PKG___ 
+`ifndef __APB_VIP_PKG__
+`define __APB_VIP_PKG__ 
 
 // wildcard include of the defines file to get all the defines in the package
 import apb_defines::*;
@@ -23,24 +23,25 @@ package apb_vip_pkg;
     ERROR = 1'b1
   } pslverr_enum;
 
-  typedef enum bit [1:0] {
-    IDLE_STATE   = 2'b00,
-    SETUP_STATE  = 2'b01,
-    ACCESS_STATE = 2'b10,
-    WAIT_STATE   = 2'b11
-  } apb_fsm_enum;
-
+  /* PPROT[0]: 0 ; NORMAL
+     PPROT[0]: 1 ; PRIVILEGED
+     PPROT[1]: 0 ; SECURE
+     PPROT[1]: 1 ; NONSECURE
+     PPROT[2]: 0 ; DATA
+     PPROT[2]: 1 ; INSTRUCTION
+  */
   typedef enum apb_pprot_t {
     NORMAL_SECURE_DATA = 3'b000,
-    NORMAL_SECURE_INSTRUCTION = 3'b001,
+    PRIVILEGED_SECURE_DATA = 3'b001,
     NORMAL_NONSECURE_DATA = 3'b010,
-    NORMAL_NONSECURE_INSTRUCTION = 3'b011,
-    PRIVILEGED_SECURE_DATA = 3'b100,
+    PRIVILEGED_NONSECURE_DATA = 3'b011,
+    NORMAL_SECURE_INSTRUCTION = 3'b100,
     PRIVILEGED_SECURE_INSTRUCTION = 3'b101,
-    PRIVILEGED_NONSECURE_DATA = 3'b110,
+    NORMAL_NONSECURE_INSTRUCTION = 3'b110,
     PRIVILEGED_NONSECURE_INSTRUCTION = 3'b111
-  } apb__enum;
+  } apb_pprot_enum;
 
+  // since pselx is a 1 bit signal, hence hot-encoded slaves are used
   typedef enum bit [`__APB_NUM_OF_SLAVES__-1:0] {
     SLAVE_0  = 4'b0000_0000_0000_0001,
     SLAVE_1  = 4'b0000_0000_0000_0010,
@@ -66,6 +67,13 @@ package apb_vip_pkg;
     _3_fourth_word = 32'd24,
     _word = 32'd32
   } transfer_size_enum;
+
+  typedef enum bit [1:0] {
+    IDLE_STATE   = 2'b00,
+    SETUP_STATE  = 2'b01,
+    ACCESS_STATE = 2'b10,
+    WAIT_STATE   = 2'b11
+  } apb_fsm_enum;
 
   typedef struct packed {
 
