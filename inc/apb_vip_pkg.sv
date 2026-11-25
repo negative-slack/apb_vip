@@ -11,7 +11,7 @@ package apb_vip_pkg;
   typedef logic [`__APB_ADDR_WIDTH__-1:0] apb_addr_t;
   typedef logic [`__APB_DATA_WIDTH__-1:0] apb_data_t;
   typedef logic [`__APB_STRB_WIDTH__-1:0] apb_strb_t;
-  typedef logic [`__APB_PROT_WIDTH__-1:0] apb_prot_t;
+  typedef logic [`__APB_PPROT_WIDTH__-1:0] apb_pprot_t;
 
   typedef enum bit {
     READ  = 1'b0,
@@ -30,7 +30,7 @@ package apb_vip_pkg;
     WAIT_STATE   = 2'b11
   } apb_fsm_enum;
 
-  typedef enum apb_prot_t {
+  typedef enum apb_pprot_t {
     NORMAL_SECURE_DATA = 3'b000,
     NORMAL_SECURE_INSTRUCTION = 3'b001,
     NORMAL_NONSECURE_DATA = 3'b010,
@@ -39,7 +39,7 @@ package apb_vip_pkg;
     PRIVILEGED_SECURE_INSTRUCTION = 3'b101,
     PRIVILEGED_NONSECURE_DATA = 3'b110,
     PRIVILEGED_NONSECURE_INSTRUCTION = 3'b111
-  } apb_prot_enum;
+  } apb__enum;
 
   typedef enum bit [`__APB_NUM_OF_SLAVES__-1:0] {
     SLAVE_0  = 4'b0000_0000_0000_0001,
@@ -71,11 +71,11 @@ package apb_vip_pkg;
 
     apb_pselx_t pselx;  // 16 bits for 16 slaves
 
-    apb_addr_t paddr;  // 32 bits for address
+    apb_addr_t  paddr;   // 32 bits for address
     pwrite_enum pwrite;  // 1 bit for read/write
-    apb_data_t pwdata;  // 32 bits for write data
-    apb_strb_t pstrb;  // 4 bits for write strobe
-    apb_prot_enum prot;  // 3 bits for protection type
+    apb_data_t  pwdata;  // 32 bits for write data
+    apb_strb_t  pstrb;   // 4 bits for write strobe
+    apb_pprot_t pprot;   // 3 bits for protection type
 
     apb_data_t   prdata;   // 32 bits for read data
     pslverr_enum pslverr;  // 1 bit for slave error

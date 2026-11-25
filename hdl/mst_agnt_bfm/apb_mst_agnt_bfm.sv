@@ -13,13 +13,13 @@ module apb_mst_agnt_bfm (
       .PRDATA (intf.PRDATA),
       .PSLVERR(intf.PSLVERR),
 
-      .PSELX(intf.PSELX),
+      .PSELX  (intf.PSELX),
       .PENABLE(intf.PENABLE),
-      .PADDR(intf.PADDR),
-      .PWRITE(intf.PWRITE),
-      .PWDATA(intf.PWDATA),
-      .PSTRB(intf.PSTRB),
-      .PROT(intf.PROT)
+      .PADDR  (intf.PADDR),
+      .PWRITE (intf.PWRITE),
+      .PWDATA (intf.PWDATA),
+      .PSTRB  (intf.PSTRB),
+      .PPROT  (intf.PPROT)
   );
 
   apb_mst_mon_bfm apb_mst_mon_bfm_hndl (
@@ -30,13 +30,13 @@ module apb_mst_agnt_bfm (
       .PRDATA (intf.PRDATA),
       .PSLVERR(intf.PSLVERR),
 
-      .PSELX(intf.PSELX),
+      .PSELX  (intf.PSELX),
       .PENABLE(intf.PENABLE),
-      .PADDR(intf.PADDR),
-      .PWRITE(intf.PWRITE),
-      .PWDATA(intf.PWDATA),
-      .PSTRB(intf.PSTRB),
-      .PROT(intf.PROT)
+      .PADDR  (intf.PADDR),
+      .PWRITE (intf.PWRITE),
+      .PWDATA (intf.PWDATA),
+      .PSTRB  (intf.PSTRB),
+      .PPROT  (intf.PPROT)
   );
 
   // setting the virtual handles of the BFMs into the configuration database!

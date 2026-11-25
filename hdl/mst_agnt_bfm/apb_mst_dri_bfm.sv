@@ -19,7 +19,7 @@ interface apb_mst_dri_bfm
     output pwrite_enum PWRITE,  // 0: read, 1: write
     output apb_data_t PWDATA,  // write data value
     output apb_strb_t PSTRB,  // write strobe; indicates which byte lane to update during a write transaction (16 diff choice)
-    output apb_prot_enum PROT  // protection type of the transaction
+    output apb_pprot_t PPROT  // protection type of the transaction
 );
 
   // Variable : fsm_state
@@ -66,7 +66,7 @@ interface apb_mst_dri_bfm
       PSTRB  <= '0;
     end
 
-    PROT <= req.prot;
+    PPROT <= req.pprot;
 
     fsm_state = SETUP_STATE;
 

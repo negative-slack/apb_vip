@@ -19,7 +19,7 @@ interface apb_mst_mon_bfm
     input pwrite_enum PWRITE,  // 0: read, 1: write
     input apb_data_t PWDATA,  // write data value
     input apb_strb_t PSTRB,  // write strobe; indicates which byte lane to update during a write transaction (16 diff choice)
-    input apb_prot_enum PROT  // protection type of the transaction
+    input apb_pprot_t PPROT  // protection type of the transaction
 );
 
   /*
@@ -57,7 +57,7 @@ interface apb_mst_mon_bfm
       req.pslverr = PSLVERR;
     end
 
-    req.prot = PROT;
+    req.pprot = PPROT;
 
     `uvm_info(get_full_name(), $sformatf("Sampled transaction: %0p", req), UVM_MEDIUM);
 
