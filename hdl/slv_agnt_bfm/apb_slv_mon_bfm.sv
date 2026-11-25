@@ -51,5 +51,4 @@ task sample_signals(output apb_trans_struct req);
 
   endtask : sample_signals
 
-endinterface
-`endif
+endinterface : apb_slv_mon_bfm
