@@ -30,11 +30,20 @@ class mst_dri_proxy extends uvm_driver #(mst_tnx);
   function void run_phase(uvm_phase phase);
     super.run_phase(phase);
 
-    forever begin
-      seq_item_port.get_next_item(tnx_hndl);
+    apb_mst_dri_bfm_hndl.reset();
 
+    apb_mst_dri_bfm_hndl.dri_idle_state();
+
+    forever begin
+
+      apb_trans_struct tnx_struct_h;
+      seq_item_port.get_next_item(req);
+
+      mst_seq_item_cnvrt::from_class(req, tnx_struct_h);
       // drive the transaction item using the APB MST driver BFM
-      apb_mst_dri_bfm_hndl.drive_tnx(tnx_hndl);
+      apb_mst_dri_bfm_hndl.drive_tnx(tnx_struct_h);
+
+      mst_seq_item_cnvrt::to_class(tnx_struct_h, req);
 
       seq_item_port.item_done();
     end
