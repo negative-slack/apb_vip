@@ -46,7 +46,7 @@ interface hdl_mst_dri_bfm
 
     @(posedge PRESETn);
     `uvm_info(get_full_name(), "SYSTEM RESET DEACTIVATED", UVM_MEDIUM);
-  endtask : reset
+  endtask : dri_presetn
 
   //////////////////////////////////////////////////////////////////////////////
   // Method : dri_idle_state

@@ -22,6 +22,24 @@ interface hdl_mst_mon_bfm
 );
 
   //////////////////////////////////////////////////////////////////////////////
+  // Variable: a hvl_mst_dri_proxy_hndl
+  // Description : Creating the handle for the hvl_mst_proxy_monitor
+  hvl_mst_mon_proxy hvl_mst_mon_proxy_hndl;
+  //////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Method : mon_presetn
+  // Description : mon the presetn signal to be low
+  ////////////////////////////////////////////////////////////////////////////// 
+  task mon_presetn();
+    @(negedge PRESETn);
+    `uvm_info(get_full_name(), "SYSTEM RESET ACTIVATED", UVM_MEDIUM);
+
+    @(posedge PRESETn);
+    `uvm_info(get_full_name(), "SYSTEM RESET DEACTIVATED", UVM_MEDIUM);
+  endtask : mon_presetn
+
+  //////////////////////////////////////////////////////////////////////////////
   // Task : sample_signals
   // Description : This task is used to sample the signals of the interface and store them in the transaction structure
   //               The task will wait until a slave is selected and the transaction is in the access state, 
