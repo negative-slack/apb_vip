@@ -21,6 +21,12 @@ interface hdl_slv_dri_bfm (
 );
 
   //////////////////////////////////////////////////////////////////////////////
+  // Variable: a hvl_slv_dri_proxy_hndl
+  // Description : Creating the handle for the hvl_mst_proxy_driver
+  hvl_slv_dri_proxy hvl_slv_dri_proxy_hndl;
+  //////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////////////////////
   // Method : dri_presetn
   // Description : drive the presetn signal to be low
   ////////////////////////////////////////////////////////////////////////////// 
@@ -35,7 +41,7 @@ interface hdl_slv_dri_bfm (
   task wait_for_setup_state(output tnx_struct req);
     @(posedge PCLK);
     `uvm_info(get_full_name(), "WAITING FOR SETUP STATE", UVM_MEDIUM);
-    `uvm_info(get_full_name(), $sformatf("PSELX: %0h", PSELX), UVM_MEDIUM);
+    `uvm_info(get_full_name(), $sformatf("PSELX: %0b", PSELX), UVM_MEDIUM);
 
     while ($countones(
         PSELX
@@ -44,7 +50,7 @@ interface hdl_slv_dri_bfm (
     end
 
     `uvm_info(get_full_name(), "SETUP STATE DETECTED", UVM_MEDIUM);
-    `uvm_info(get_full_name(), $sformatf("PSELX: %0h", PSELX), UVM_MEDIUM);
+    `uvm_info(get_full_name(), $sformatf("PSELX: %0b", PSELX), UVM_MEDIUM);
 
     req.pselq  = PSELX;
     req.paddr  = PADDR;

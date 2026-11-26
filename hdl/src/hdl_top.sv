@@ -14,7 +14,7 @@ module hdl_top;
   localparam CLK_CYCLE = 10;
 
   //-------------------------------------------------------
-  // Generation of system clock at frequency rate of 100MHz
+  // Generation of system clock with a clk cyle of 10 timeunits
   //-------------------------------------------------------
   initial begin
     pclk = 1'b0;
@@ -25,13 +25,13 @@ module hdl_top;
   end
 
   initial begin
-    presetn = 1'b1;
+    presetn = 1'b1;  // t = 0
     #15;
-    presetn = 1'b0;
+    presetn = 1'b0;  // t = 15
     repeat (2) begin
       @(posedge pclk);
     end
-    presetn = 1'b1;
+    presetn = 1'b1;  // t = 30
   end
 
   initial begin
@@ -49,7 +49,7 @@ module hdl_top;
       .PRESETn(presetn)
   );
 
-  hdl_mst_agnt_bfm hdl_mst_agnt_bfm_h (.intf(intf_mst));
+  hdl_mst_agnt_bfm hdl_mst_agnt_bfm_h (.hdl_mst_agnt_intf(intf_mst));
 
   // Intermediate nets, so the return mux can use a normal loop
   bit        [`__NUM_OF_SLAVES__-1:0] pready_s;
@@ -57,7 +57,10 @@ module hdl_top;
   bit        [`__NUM_OF_SLAVES__-1:0] pslverr_s;
 
   // Master -> slave: one generate block per slave
-  for (genvar i = 0; i < NO_OF_SLAVES; i++) begin
+  for (genvar i = 0; i < `__NUM_OF_SLAVES__; i++) begin
+
+    hdl_slv_agnt_bfm #(.SLV_ID(i)) hdl_slv_agnt_bfm_hndl (.hdl_slv_agnt_intf(intf_slv(i)));
+
     assign intf_slv[i].pselx = intf_mst.pselx[i];
     assign intf_slv[i].penable = intf_mst.penable;
 
@@ -73,24 +76,17 @@ module hdl_top;
   end
 
   always_comb begin
-    intf_slv.pready  = 1'b0;
-    intf_slv.prdata  = '0;
-    intf_slv.pslverr = 1'b0;
-    for (int i = 0; i < NO_OF_SLAVES; i++) begin
-      if (intf.pselx[i]) begin
-        intf_slv.pready  = pready_s[i];
-        intf_slv.pslverr = pslverr_s[i];
-        intf_slv.prdata  = prdata_s[i];
+    intf_mst.pready  = 1'b0;
+    intf_mst.prdata  = '0;
+    intf_mst.pslverr = 1'b0;
+    for (int i = 0; i < `__NUM_OF_SLAVES__; i++) begin
+      if (intf_mst.pselx[i]) begin
+        intf_mst.pready  = pready_s[i];
+        intf_mst.pslverr = pslverr_s[i];
+        intf_mst.prdata  = prdata_s[i];
       end
     end
   end
-
-  //   genvar i;
-  //   generate;
-  //     for (int i=0; i<`__NUM_OF_SLAVES__; ++i) begin
-  //         hdl_slv_agnt_bfm #(.SLV_ID(i));
-  //     end
-  //   endgenerate
 
 endmodule
 

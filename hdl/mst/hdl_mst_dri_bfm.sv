@@ -45,7 +45,7 @@ interface hdl_mst_dri_bfm
     `uvm_info(get_full_name(), "SYSTEM RESET ACTIVATED", UVM_MEDIUM);
 
     @(posedge PRESETn);
-    `uvm_info(get_full_name(), "SYSTEM RESET DEACTIVATED", UVM_MEDIUM);
+    `uvm_info(get_full_name(), "SYSTEM RESET DE-ACTIVATED", UVM_MEDIUM);
   endtask : dri_presetn
 
   //////////////////////////////////////////////////////////////////////////////
@@ -80,6 +80,7 @@ interface hdl_mst_dri_bfm
       PWDATA <= req.pwdata;
       PSTRB  <= req.pstrb;
     end else begin  // it is a read transaction, so we don't need to drive PWDATA and PSTRB
+      // i also constrained this in the hvl_mst_tnx ! 
       PWDATA <= '0;
       PSTRB  <= '0;
     end
@@ -123,7 +124,7 @@ interface hdl_mst_dri_bfm
 
     @(posedge PCLK);
     `uvm_info(get_full_name(), $sformatf("PREADY = %0b", req.pready), UVM_MEDIUM);
-    `uvm_info(get_full_name(), "PREADY is LOW, wait state detected", UVM_MEDIUM);
+    `uvm_info(get_full_name(), "PREADY is LOW, WAIT_STATE detected", UVM_MEDIUM);
     while (PREADY == 1'b0) begin
       @(posedge PCLK);
       fsm_state = WAIT_STATE;
@@ -131,8 +132,8 @@ interface hdl_mst_dri_bfm
     end
 
     `uvm_info(get_full_name(), $sformatf("PREADY = %0b", req.pready), UVM_MEDIUM);
-    `uvm_info(get_full_name(), "PREADY is HIGH, Exiting the wait state", UVM_MEDIUM);
-    `uvm_info(get_full_name(), $sformatf("Number of wait states = %0d", req.num_of_wait_states),
+    `uvm_info(get_full_name(), "PREADY is HIGH, Exiting the WAIT_STATE", UVM_MEDIUM);
+    `uvm_info(get_full_name(), $sformatf("Number of WAIT_STATE = %0d", req.num_of_wait_states),
               UVM_MEDIUM);
 
   endtask : wait_state_detected

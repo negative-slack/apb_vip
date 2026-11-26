@@ -2,41 +2,41 @@
 `define __HDL_MST_AGNT_BFM__ 
 
 module hdl_mst_agnt_bfm (
-    apb_if intf
+    apb_if hdl_mst_agnt_intf
 );
 
   hdl_mst_dri_bfm hdl_mst_dri_bfm_hndl (
-      .PCLK(intf.PCLK),
-      .PRESETn(intf.PRESETn),
+      .PCLK(hdl_mst_agnt_intf.PCLK),
+      .PRESETn(hdl_mst_agnt_intf.PRESETn),
 
-      .PREADY (intf.PREADY),
-      .PRDATA (intf.PRDATA),
-      .PSLVERR(intf.PSLVERR),
+      .PREADY (hdl_mst_agnt_intf.PREADY),
+      .PRDATA (hdl_mst_agnt_intf.PRDATA),
+      .PSLVERR(hdl_mst_agnt_intf.PSLVERR),
 
-      .PSELX  (intf.PSELX),
-      .PENABLE(intf.PENABLE),
-      .PADDR  (intf.PADDR),
-      .PWRITE (intf.PWRITE),
-      .PWDATA (intf.PWDATA),
-      .PSTRB  (intf.PSTRB),
-      .PPROT  (intf.PPROT)
+      .PSELX  (hdl_mst_agnt_intf.PSELX),
+      .PENABLE(hdl_mst_agnt_intf.PENABLE),
+      .PADDR  (hdl_mst_agnt_intf.PADDR),
+      .PWRITE (hdl_mst_agnt_intf.PWRITE),
+      .PWDATA (hdl_mst_agnt_intf.PWDATA),
+      .PSTRB  (hdl_mst_agnt_intf.PSTRB),
+      .PPROT  (hdl_mst_agnt_intf.PPROT)
   );
 
   hdl_mst_mon_bfm hdl_mst_mon_bfm_hndl (
-      .PCLK(intf.PCLK),
-      .PRESETn(intf.PRESETn),
+      .PCLK(hdl_mst_agnt_intf.PCLK),
+      .PRESETn(hdl_mst_agnt_intf.PRESETn),
 
-      .PREADY (intf.PREADY),
-      .PRDATA (intf.PRDATA),
-      .PSLVERR(intf.PSLVERR),
+      .PREADY (hdl_mst_agnt_intf.PREADY),
+      .PRDATA (hdl_mst_agnt_intf.PRDATA),
+      .PSLVERR(hdl_mst_agnt_intf.PSLVERR),
 
-      .PSELX  (intf.PSELX),
-      .PENABLE(intf.PENABLE),
-      .PADDR  (intf.PADDR),
-      .PWRITE (intf.PWRITE),
-      .PWDATA (intf.PWDATA),
-      .PSTRB  (intf.PSTRB),
-      .PPROT  (intf.PPROT)
+      .PSELX  (hdl_mst_agnt_intf.PSELX),
+      .PENABLE(hdl_mst_agnt_intf.PENABLE),
+      .PADDR  (hdl_mst_agnt_intf.PADDR),
+      .PWRITE (hdl_mst_agnt_intf.PWRITE),
+      .PWDATA (hdl_mst_agnt_intf.PWDATA),
+      .PSTRB  (hdl_mst_agnt_intf.PSTRB),
+      .PPROT  (hdl_mst_agnt_intf.PPROT)
   );
 
   // setting the virtual handles of the BFMs into the configuration database!

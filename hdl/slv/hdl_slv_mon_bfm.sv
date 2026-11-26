@@ -20,12 +20,21 @@ interface hdl_slv_mon_bfm (
     input apb_pprot_t PPROT  // protection type of the transaction
 );
 
+  //////////////////////////////////////////////////////////////////////////////
+  // Variable: a hvl_slv_mon_proxy_hndl
+  // Description : Creating the handle for the hvl_mst_proxy_monitor
+  hvl_slv_mon_proxy hvl_slv_mon_proxy_hndl;
+  //////////////////////////////////////////////////////////////////////////////
+
   task sample_signals(output tnx_struct req);
+    @(negedge PCLK);
 
     while (($countones(
         PSELX
     ) != 1)  // NO SLAVE IS SELECTED
-    || (PENABLE != 1'b1) || (PREADY != 1'b1)) begin
+    || (PENABLE != 1'b1)  // NOT IN ACCESS STATE YET
+    || (PREADY != 1'b1)) // PREADY IS NOT HIGH YET ! 
+    begin
       @(negedge PCLK);
     end
 

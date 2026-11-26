@@ -43,20 +43,20 @@ class hvl_mst_tnx extends uvm_sequence_item;
   }
 
   // constraint to set pwdata to 0 if it is a read operation
-  constraint pwdata_c {(pwrite == READ) -> (pwdata == '0);}
+  constraint pwdata_c {(pwrite == pwrite_enum::READ) -> (pwdata == '0);}
 
   // constraint to set pstrb to 0 if it is a read operation
-  constraint pstrb_c1 {(pwrite == READ) -> (pstrb == '0);}
+  constraint pstrb_c1 {(pwrite == pwrite_enum::READ) -> (pstrb == '0);}
 
   constraint pstrb_c2 {
     (pwrite == pwrite_enum::WRITE) ->
     ($countones(
         pstrb
     ) dist {
-      1 :/ 25,
-      2 :/ 25,
-      3 :/ 25,
-      4 :/ 25
+      (4'b0001, 4'b0010, 4'b0100, 4'b1000) :/ 25,
+      (4'b1100, 4'b1001, 4'b1010, 4'b0110, 4'b0101, 4'b0011) :/ 25,
+      (4'b1110, 4'b1101, 4'b1011, 4'b0111) :/ 25,
+      4'b1111 :/ 25
     });
   }
 

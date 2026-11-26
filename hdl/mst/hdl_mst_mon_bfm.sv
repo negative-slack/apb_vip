@@ -46,6 +46,7 @@ interface hdl_mst_mon_bfm
   //               The task will also count the number of wait states and store it in the transaction structure
   //////////////////////////////////////////////////////////////////////////////
   task sample_signals(output tnx_struct req);
+    @(negedge PCLK);
 
     while (($countones(
         PSELX
@@ -62,7 +63,7 @@ interface hdl_mst_mon_bfm
     end
 
     `uvm_info(get_full_name(), $sformat(
-              "PSELX = %0d, PENABLE = %0b, PREADY = %0b", req.pselx, req.penable, req.pready),
+              "PSELX = %0b, PENABLE = %0b, PREADY = %0b", req.pselx, req.penable, req.pready),
               UVM_MEDIUM);
     req.pselx  = PSELX;
 
