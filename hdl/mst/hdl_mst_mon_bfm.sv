@@ -7,7 +7,6 @@ interface hdl_mst_mon_bfm
     input bit PCLK,    // system clk
     input bit PRESETn, // system reset negative
 
-
     input bit PREADY,
     input apb_data_t PRDATA,
     input pslverr_enum PSLVERR,

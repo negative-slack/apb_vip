@@ -10,13 +10,13 @@ interface hdl_mst_dri_bfm
     // slv output signals
     input bit PREADY,
     input apb_data_t PRDATA,
-    input pslverr_enum PSLVERR,
+    input bit PSLVERR,
 
     // mst output signals
     output apb_pselx_t PSELX,  // slave select, when asserted indicates the start of the transaction
     output bit PENABLE,  // low indicates the first cycle of the transaction (setup state
     output apb_addr_t PADDR,  // address to write to or read from
-    output pwrite_enum PWRITE,  // 0: read, 1: write
+    output bit PWRITE,  // 0: read, 1: write
     output apb_pprot_t PPROT,  // protection type of the transaction
 
     output apb_data_t PWDATA,  // write data value
@@ -59,7 +59,7 @@ interface hdl_mst_dri_bfm
     PENABLE <= 1'b0;
     fsm_state = IDLE_STATE;
 
-    `uvm_info(get_full_name(), "MST_DRI_BFM is in the IDLE state", UVM_MEDIUM);
+    `uvm_info(get_full_name(), "hdl_mst_dri_bfm is in the IDLE_STATE", UVM_MEDIUM);
 
   endtask : dri_idle_state
 
@@ -88,7 +88,7 @@ interface hdl_mst_dri_bfm
 
     fsm_state = SETUP_STATE;
 
-    `uvm_info(get_full_name(), "MST_DRI_BFM is in the SETUP state", UVM_MEDIUM);
+    `uvm_info(get_full_name(), "hdl_mst_dri_bfm is in the SETUP_STATE", UVM_MEDIUM);
 
   endtask : dri_setup_state
 
@@ -104,7 +104,7 @@ interface hdl_mst_dri_bfm
     fsm_state = ACCESS_STATE;
     wait_state_detected(req);
 
-    `uvm_info(get_full_name(), "MST_DRI_BFM is in ACCESS state", UVM_MEDIUM);
+    `uvm_info(get_full_name(), "hdl_mst_dri_bfm is in ACCESS_STATE", UVM_MEDIUM);
 
     if (req.pwrite == READ) begin
       req.prdata = PRDATA;
@@ -122,6 +122,7 @@ interface hdl_mst_dri_bfm
   task wait_state_detected(inout tnx_struct req);
 
     @(posedge PCLK);
+    `uvm_info(get_full_name(), $sformatf("PREADY = %0b", req.pready), UVM_MEDIUM);
     `uvm_info(get_full_name(), "PREADY is LOW, wait state detected", UVM_MEDIUM);
     while (PREADY == 1'b0) begin
       @(posedge PCLK);
@@ -129,6 +130,7 @@ interface hdl_mst_dri_bfm
       req.num_of_wait_states++;
     end
 
+    `uvm_info(get_full_name(), $sformatf("PREADY = %0b", req.pready), UVM_MEDIUM);
     `uvm_info(get_full_name(), "PREADY is HIGH, Exiting the wait state", UVM_MEDIUM);
     `uvm_info(get_full_name(), $sformatf("Number of wait states = %0d", req.num_of_wait_states),
               UVM_MEDIUM);

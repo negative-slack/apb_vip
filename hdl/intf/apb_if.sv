@@ -12,7 +12,7 @@ interface apb_if
   apb_psel_t PSELX;  // slave select, when asserted indicates the start of the transaction
   bit PENABLE;  // low indicates the first cycle of the transaction (setup state), and must be 1 in the following cycle > which indicates the 2nd/subsequent cycle (access state) of the apb protocol
   apb_addr_t PADDR;  // address to write to or read from
-  pwrite_enum PWRITE;  // 0: read, 1: write
+  bit PWRITE;  // 0: read, 1: write
   apb_pprot_t PPROT;  // protection type of the transaction
 
   // below signals have a value other than '0, only when PWRITE is asserted for a write transaction (will be controlled via a constraint)
@@ -22,7 +22,7 @@ interface apb_if
   // slv output signals
   bit PREADY; // only when PREADY is high it indicates the end of the tnx, read data is avaialbe at the same clock cycle with 0 delay. For a write tnxs, we update the memory after 1 delay cycle! (When PREADY = 0)
   apb_data_t PRDATA;
-  pslverr_enum PSLVERR;
+  bit PSLVERR;
 
 endinterface : apb_if
 

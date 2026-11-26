@@ -1,7 +1,9 @@
 `ifndef __HDL_SLV_AGNT_BFM__
 `define __HDL_SLV_AGNT_BFM__ 
 
-module hdl_slv_agnt_bfm (
+module hdl_slv_agnt_bfm #(
+    parameter SLV_ID = 0
+) (
     apb_if intf
 );
 

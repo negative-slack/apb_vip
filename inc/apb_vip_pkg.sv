@@ -6,7 +6,7 @@ import apb_defines::*;
 
 package apb_vip_pkg;
 
-  typedef bit [`__APB_NUM_OF_SLAVES__-1:0] apb_psel_t;
+  typedef bit [`__NUM_OF_SLAVES__-1:0] apb_psel_t;
 
   typedef logic [`__APB_ADDR_WIDTH__-1:0] apb_addr_t;
   typedef logic [`__APB_DATA_WIDTH__-1:0] apb_data_t;
@@ -42,23 +42,23 @@ package apb_vip_pkg;
   } pprot_enum;
 
   // since pselx is a 1 bit signal, hence hot-encoded slaves are used
-  typedef enum bit [`__APB_NUM_OF_SLAVES__-1:0] {
-    SLAVE_0  = 4'b0000_0000_0000_0001,
-    SLAVE_1  = 4'b0000_0000_0000_0010,
-    SLAVE_2  = 4'b0000_0000_0000_0100,
-    SLAVE_3  = 4'b0000_0000_0000_1000,
-    SLAVE_4  = 4'b0000_0000_0001_0000,
-    SLAVE_5  = 4'b0000_0000_0010_0000,
-    SLAVE_6  = 4'b0000_0000_0100_0000,
-    SLAVE_7  = 4'b0000_0000_1000_0000,
-    SLAVE_8  = 4'b0000_0001_0000_0000,
-    SLAVE_9  = 4'b0000_0010_0000_0000,
-    SLAVE_10 = 4'b0000_0100_0000_0000,
-    SLAVE_11 = 4'b0000_1000_0000_0000,
-    SLAVE_12 = 4'b0001_0000_0000_0000,
-    SLAVE_13 = 4'b0010_0000_0000_0000,
-    SLAVE_14 = 4'b0100_0000_0000_0000,
-    SLAVE_15 = 4'b1000_0000_0000_0000
+  typedef enum apb_psel_t {
+    SLAVE_0  = 16'b0000_0000_0000_0001,
+    SLAVE_1  = 16'b0000_0000_0000_0010,
+    SLAVE_2  = 16'b0000_0000_0000_0100,
+    SLAVE_3  = 16'b0000_0000_0000_1000,
+    SLAVE_4  = 16'b0000_0000_0001_0000,
+    SLAVE_5  = 16'b0000_0000_0010_0000,
+    SLAVE_6  = 16'b0000_0000_0100_0000,
+    SLAVE_7  = 16'b0000_0000_1000_0000,
+    SLAVE_8  = 16'b0000_0001_0000_0000,
+    SLAVE_9  = 16'b0000_0010_0000_0000,
+    SLAVE_10 = 16'b0000_0100_0000_0000,
+    SLAVE_11 = 16'b0000_1000_0000_0000,
+    SLAVE_12 = 16'b0001_0000_0000_0000,
+    SLAVE_13 = 16'b0010_0000_0000_0000,
+    SLAVE_14 = 16'b0100_0000_0000_0000,
+    SLAVE_15 = 16'b1000_0000_0000_0000
   } slave_num_enum;
 
   typedef enum bit [1:0] {
@@ -70,12 +70,12 @@ package apb_vip_pkg;
 
   typedef struct packed {
 
-    apb_pselx_t pselx;  // 16 bits for 16 slaves
+    apb_psel_t pselx;  // 16 bits for 16 slaves
 
     apb_addr_t  paddr;   // 32 bits for address
     pwrite_enum pwrite;  // 1 bit for read/write
     apb_data_t  pwdata;  // 32 bits for write data
-    apb_strb_t  pstrb;   // 4 bits for write strobe
+    apb_strb_t  pstrb;   // 16 bits for write strobe
     apb_pprot_t pprot;   // 3 bits for protection type
 
     apb_data_t   prdata;   // 32 bits for read data

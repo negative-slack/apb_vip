@@ -18,8 +18,8 @@
 `endif
 
 // Number of APB slaves = 16
-`ifndef __APB_NUM_OF_SLAVES__
-`define __APB_NUM_OF_SLAVES__ 16
+`ifndef __NUM_OF_SLAVES__
+`define __NUM_OF_SLAVES__ 16
 `endif
 
 // 4096 bytes of memory for each slave
